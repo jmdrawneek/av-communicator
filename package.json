@@ -1,0 +1,16 @@
+{
+  "name": "av-communicator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.1",
+    "ant": "^0.0.0"
+  }
+}
