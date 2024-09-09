@@ -1,16 +1,18 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 
 import { StepWrapper } from '../stepWrapper';
 import { SingleInput } from '../../singleInput';
 import { useCurrentFlow } from '@/context/currentFlowContext';
 
+import type { Node } from '@xyflow/react';
+
 import styles from './styles.module.scss';
 
 
-export const StepNode = memo(({ data, id }: { data: any, id: string }) => {
+export const StepNode = ({ data, id }: { data: Node['data'], id: string }) => {
   const { updateNode } = useCurrentFlow(); 
-  const [stepName, setStepName] = useState(data.label);
+  const [stepName, setStepName] = useState(data.label as string);
   const [isEditing, setIsEditing] = useState(false);
 
   const updateName = useCallback((newName: string) => {
@@ -43,4 +45,4 @@ export const StepNode = memo(({ data, id }: { data: any, id: string }) => {
       />
     </StepWrapper>
   );
-});
+};

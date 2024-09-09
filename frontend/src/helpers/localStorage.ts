@@ -1,10 +1,12 @@
 import localforage from 'localforage';
 
+import type { FlowConfig } from '@/context/currentFlowContext';
+
 localforage.config({
     name: 'av-communicator-poc'
 });
 
-export const saveFlow = ({ flowName, flow }: { flowName: string, flow: any }) => {
+export const saveFlow = ({ flowName, flow }: { flowName: string, flow: FlowConfig }) => {
   return localforage.setItem(flowName, flow);
 }
 

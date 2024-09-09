@@ -3,14 +3,9 @@
 import React from 'react';
 import {
   ReactFlow,
-  addEdge,
-  useNodesState,
-  useEdgesState,
   Background,
   BackgroundVariant,
   ReactFlowProvider,
-  useStoreApi,
-  useReactFlow,
   Panel,
 } from '@xyflow/react';
 
@@ -34,7 +29,7 @@ const nodeTypes = {
 };
 
 const Flow = () => {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, setFlowName } = useCurrentFlow();
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useCurrentFlow();
 
   return (
     <>
@@ -64,7 +59,7 @@ const Flow = () => {
   );
 };
 
-export default () => (
+const FlowWrapper = () => (
   <CurrentFlowProvider>
     <ReactFlowProvider>
       <div className={styles.wrapper}>
@@ -75,3 +70,5 @@ export default () => (
     </ReactFlowProvider>
   </CurrentFlowProvider>
 );
+
+export default FlowWrapper;

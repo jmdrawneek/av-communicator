@@ -14,7 +14,7 @@ export const SaveFlow = () => {
     const { currentFlow, flowName } = useCurrentFlow();
 
     const saveFlowFn = useCallback(() => {
-        if (!flowName) return;
+        if (!flowName || !currentFlow) return;
         console.log({ flowName, flow: currentFlow });
         saveFlow({ flowName, flow: currentFlow });
     }, [flowName, currentFlow]);

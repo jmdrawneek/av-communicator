@@ -1,4 +1,4 @@
-export const SingleInput = ({ updateValue, label, size = 10 }: { updateValue: (newName: string) => void, label?: React.ReactNode, size?: number }) => {
+export const SingleInput = ({ updateValue, label = null, size = 10 }: { updateValue: (newName: string) => void, label?: React.ReactNode, size?: number }) => {
     return (
       <form onSubmit={(e) => {
         e.preventDefault();

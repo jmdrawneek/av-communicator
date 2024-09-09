@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode, useEffect, useCa
 
 import { Connection, Edge, EdgeChange, Node, NodeChange, addEdge, applyEdgeChanges, applyNodeChanges } from '@xyflow/react';
 
-interface FlowConfig {
+export interface FlowConfig {
   nodes: Node[];
   edges: Edge[];
   flowName: string;

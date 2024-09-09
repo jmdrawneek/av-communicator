@@ -15,7 +15,7 @@ export const FlowName = () => {
     
     return (
         <div className={styles.flowNameContainer}>
-            {!isEditing && <p>Flow Name "{flowName}"<button className={styles.edit} onClick={() => setIsEditing(true)}>Edit</button></p>}
+            {!isEditing && <p>Flow Name &ldquo;{flowName}&ldquo;<button className={styles.edit} onClick={() => setIsEditing(true)}>Edit</button></p>}
             {isEditing && <SingleInput updateValue={handleEdit} size={20} label={<label className={styles.flowName}>Flow name: </label>} />}
         </div>
     );

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 
 import { useCurrentFlow } from '@/context/currentFlowContext';
 import { deleteFlow } from '@/helpers/localStorage';

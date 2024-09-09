@@ -1,9 +1,9 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Handle, Position } from '@xyflow/react';
 
 import { StepWrapper } from '../stepWrapper';
 
-export const StartNode = memo(() => {
+export const StartNode = () => {
   return (
     <StepWrapper stepType="start">
       <div>
@@ -18,4 +18,4 @@ export const StartNode = memo(() => {
       />
     </StepWrapper>
   );
-});
+};
