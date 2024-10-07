@@ -1,0 +1,16 @@
+@use '@/config/variables.scss' as config;
+
+.sidebarContainer {
+    background-color: config.$primary-color;
+    padding: 20px;
+    width: 450px;
+    min-height: 100vh;
+}
+
+.navList {
+    list-style: none;
+
+    & li {
+        margin-bottom: 1rem;;
+    }
+}

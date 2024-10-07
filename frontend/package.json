@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@maverick-js/signals": "^6.0.0",
     "@xyflow/react": "^12.2.1",
     "classnames": "^2.5.1",
     "localforage": "^1.10.0",

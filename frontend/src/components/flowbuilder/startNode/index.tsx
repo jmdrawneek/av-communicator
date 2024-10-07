@@ -5,7 +5,7 @@ import { StepWrapper } from '../stepWrapper';
 
 export const StartNode = () => {
   return (
-    <StepWrapper stepType="start">
+    <StepWrapper stepType="start" active={false}>
       <div>
         Start
       </div>

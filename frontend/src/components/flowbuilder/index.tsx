@@ -21,6 +21,7 @@ import { LoadFlow } from './loadFlow';
 import { SaveFlow } from './saveFlow';
 import { DeleteFlow } from './deleteFlow';
 import { FlowName } from './flowName';
+import { RunFlow } from './runFlow';
 
 // Set up custom nodes.
 const nodeTypes = {
@@ -33,7 +34,6 @@ const Flow = () => {
 
   return (
     <>
-    <Panel position="top-left"><FlowName /></Panel>
     <ReactFlow
       nodes={nodes}
       edges={edges}
@@ -49,10 +49,16 @@ const Flow = () => {
     </ReactFlow>
     <Panel position="bottom-center">
           <div className={styles.footer}>
-            <AddNode />
+            <div className={styles.footerButtons}>
+              <AddNode />
             <LoadFlow />
             <SaveFlow />
             <DeleteFlow />
+            </div>
+            <div className={styles.subFooter}>
+              <FlowName />
+              <RunFlow />
+            </div>
           </div>
         </Panel>
     </>

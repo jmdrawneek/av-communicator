@@ -1,0 +1,42 @@
+@use '@/config/variables.scss' as config;
+
+@mixin baseButton {
+    padding: 1rem 2.5rem;
+    min-width: 200px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-weight: 800;
+
+    & > span {
+        display: block;
+        float: right;
+    }
+}
+
+.primary {
+    @include baseButton;
+    background-color: config.$secondary-color;
+    color: #fff;
+
+    &:hover {
+        background-color: config.$primary-color;
+    }
+}
+
+.primaryOnDark {
+    @include baseButton;
+    background-color: config.$primary-color;
+    color: #fff;
+    border: 2px solid white;
+
+    &:hover {
+        background-color: #fff;
+        color: config.$primary-color;
+    }
+}
+
+.secondary {
+    @include baseButton;
+    background-color: #6c757d;
+    color: #fff;
+}

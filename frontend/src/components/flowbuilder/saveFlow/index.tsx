@@ -1,8 +1,12 @@
 import React, { useCallback } from 'react';
 
-import { useCurrentFlow } from '@/context/currentFlowContext';
-import { saveFlow } from '@/helpers/localStorage';
 import { Edge, Node } from '@xyflow/react';
+
+import { useCurrentFlow } from '@/context/currentFlowContext';
+
+import { saveFlow } from '@/helpers/localStorage';
+
+import { Button } from '@/components/button';
 
 export interface savedFlow {
     nodes: Node[];
@@ -17,7 +21,10 @@ export const SaveFlow = () => {
         if (!flowName || !currentFlow) return;
         console.log({ flowName, flow: currentFlow });
         saveFlow({ flowName, flow: currentFlow });
+        
+
+
     }, [flowName, currentFlow]);
 
-    return <button onClick={saveFlowFn}>Save</button>;
+    return <Button buttonStyle="primary" onClick={saveFlowFn}>Save</Button>;
 }

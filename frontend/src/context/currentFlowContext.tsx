@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect, useCallback } from 'react';
 
 import { Connection, Edge, EdgeChange, Node, NodeChange, addEdge, applyEdgeChanges, applyNodeChanges } from '@xyflow/react';
+import { signal } from '@maverick-js/signals';
 
 export interface FlowConfig {
   nodes: Node[];
@@ -33,7 +34,7 @@ const initialEdges: Edge[] = [];
 
 export const CurrentFlowProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentFlow, setCurrentFlow] = useState<FlowConfig | null>(null);
-  const [nodes, setNodes] = useState(initialNodes);
+  const [nodes, setNodesInternal] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
   const [flowName, setFlowName] = useState('New Flow');
   const [loadedFlow, setLoadedFlow] = useState<string | null>(null);
@@ -43,7 +44,7 @@ export const CurrentFlowProvider: React.FC<{ children: ReactNode }> = ({ childre
   }, [nodes, edges, flowName]);
 
   const onNodesChange = useCallback((changes: NodeChange[]) => {
-    setNodes((nds) => applyNodeChanges(changes, nds))
+    setNodesInternal((nds) => applyNodeChanges(changes, nds))
   }, []);
 
   const onEdgesChange = useCallback((changes: EdgeChange[]) => {
@@ -51,10 +52,20 @@ export const CurrentFlowProvider: React.FC<{ children: ReactNode }> = ({ childre
   }, []);
 
   const updateNode = useCallback((nodeData: Node['data'], id: Node['id']) => {
-    setNodes((nds) => nds.map((n) => n.id === id ? {...n, data: {...n.data, ...nodeData}} : n));
+    setNodesInternal((nds) => nds.map((n) => n.id === id ? {...n, data: {...n.data, ...nodeData}} : n));
   }, []);
 
   const onConnect = useCallback((params: Connection) => setEdges((eds) => addEdge(params, eds)), []);
+
+  const setNodes = useCallback((nodes: Node[]) => {
+    setNodesInternal(nodes.map((node) => ({ 
+      ...node, 
+      data: { 
+        ...node.data, 
+        signal: signal(node.data.signal || { active: false }) 
+      } 
+    })))
+  }, []);
 
   return (
     <CurrentFlowContext.Provider value={{ 
