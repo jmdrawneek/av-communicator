@@ -44,17 +44,20 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 3rem;
+  padding: 0 3rem;
 }
 
 .footerButtons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
+  gap: 20px;
 }
 
 .subFooter {
   padding: 2rem;
   width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }

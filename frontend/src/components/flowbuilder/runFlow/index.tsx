@@ -6,10 +6,8 @@ import { convertFlowToCommand } from '@/helpers/convertFlowToCommand';
 import { Button } from '@/components/button';
 
 import { AutomationConfig } from '@/helpers/convertFlowToCommand';
+import { startProcess } from './startProocess';
 
-const randomTimeoutDelay = async ({ delay }: { delay: number }) => {
-    return new Promise((resolve) => setTimeout(resolve, Math.floor(Math.random() * delay)))
-}
 
 const runFlow = ({ flowName, steps }: AutomationConfig) => {
     const promiseMap = new Map();
@@ -19,30 +17,28 @@ const runFlow = ({ flowName, steps }: AutomationConfig) => {
 
         promiseMap.set(id,
             [...(promiseMap.get(id) || []),
-            () => new Promise((yes) => {
+            () => new Promise((yes: (id: string) => void) => {
                 const sourcePromise = promiseMap.get(source) || Promise.resolve('Start node');
 
                 if ('signal' in data) {
                     sourcePromise.then(() => {
-                        data.signal?.set({ active: true, id });
-                        randomTimeoutDelay({ delay: 3000 })
-                            .then(() => {
-                                data.signal?.set({ active: false, id });
-                                yes(id);
-                            });
+                        startProcess({ signalFinished: yes, nodeListener: data.signal, id })
+                        
                     });
                 }
                 else {
                     throw new Error(`No signal found on node ${id}`);
                 }
-
-               
             })
             ])
     });
 
     Array.from(promiseMap.keys()).forEach((key) => {
-        promiseMap.set(key, Promise.all(promiseMap.get(key).map((fn: () => Promise<string>) => fn())))
+        promiseMap.set(key, 
+            Promise.all(promiseMap.get(key)
+                // Start the processes once in sequence.
+                .map((fn: () => Promise<string>) => fn())
+        ))
     });
 }
 

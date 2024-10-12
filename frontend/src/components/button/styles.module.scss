@@ -13,6 +13,18 @@
     }
 }
 
+@mixin baseButtonSmall {
+    padding: .5rem 1.75rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-weight: 800;
+
+    & > span {
+        display: block;
+        float: right;
+    }
+}
+
 .primary {
     @include baseButton;
     background-color: config.$secondary-color;
@@ -20,6 +32,27 @@
 
     &:hover {
         background-color: config.$primary-color;
+    }
+}
+
+.primarySmall {
+  @include baseButtonSmall;
+  background-color: config.$secondary-color;
+  color: #fff;
+
+  &:hover {
+      background-color: config.$primary-color;
+  }
+}
+
+.primarySmallOnDark {
+    @include baseButtonSmall;
+    background-color: config.$secondary-color;
+    color: #fff;
+  
+    &:hover {
+        background-color: #fff;
+        color: config.$primary-color;
     }
 }
 
@@ -39,4 +72,15 @@
     @include baseButton;
     background-color: #6c757d;
     color: #fff;
+}
+
+.secondaryOnDark {
+    @include baseButton;
+    background-color: config.$secondary-color;
+    color: #fff;
+
+    &:hover {
+        background-color: white;
+        color: config.$secondary-color;
+    }
 }

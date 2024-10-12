@@ -8,7 +8,10 @@ localforage.config({
 
 export const saveFlow = ({ flowName, flow }: { flowName: string, flow: FlowConfig }) => {
   // Remove signal from each node so it can be saved to localforage
-  return localforage.setItem(flowName, flow.nodes.map((node) => ({ ...node, data: { ...node.data, signal: null } })));
+  return localforage.setItem(flowName, { 
+    nodes: flow.nodes.map((node) => ({ ...node, data: { ...node.data, signal: null } })), 
+    edges: flow.edges 
+  });
 }
 
 export const loadFlow = ({ flowName }: { flowName: string }) => {

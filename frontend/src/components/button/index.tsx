@@ -10,7 +10,7 @@ export const Button = ({
 } : { 
         children: React.ReactNode, 
         btnType?: 'button' | 'submit' | 'reset', 
-        buttonStyle?: 'primary' | 'primaryOnDark',
+        buttonStyle?: 'primary' | 'primaryOnDark' | 'primarySmall' | 'primarySmallOnDark' | 'secondary' | 'secondaryOnDark',
         onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void 
     }) => {
     return <button type={btnType} className={styles[buttonStyle]} onClick={onClick}>{children}</button>;

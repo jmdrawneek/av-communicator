@@ -13,15 +13,14 @@ import {
 import { StartNode } from '@/components/flowbuilder/startNode';
 import { StepNode } from '@/components/flowbuilder/stepNode';
 
-import '@xyflow/react/dist/style.css';
-import styles from './styles.module.scss';
-import { CurrentFlowProvider, useCurrentFlow } from '@/context/currentFlowContext';
+import { useCurrentFlow } from '@/context/currentFlowContext';
+
 import { AddNode } from './addNode';
-import { LoadFlow } from './loadFlow';
-import { SaveFlow } from './saveFlow';
-import { DeleteFlow } from './deleteFlow';
 import { FlowName } from './flowName';
 import { RunFlow } from './runFlow';
+
+import '@xyflow/react/dist/style.css';
+import styles from './styles.module.scss';
 
 // Set up custom nodes.
 const nodeTypes = {
@@ -51,13 +50,10 @@ const Flow = () => {
           <div className={styles.footer}>
             <div className={styles.footerButtons}>
               <AddNode />
-            <LoadFlow />
-            <SaveFlow />
-            <DeleteFlow />
+              {nodes.length > 1 && <RunFlow />}
             </div>
             <div className={styles.subFooter}>
-              <FlowName />
-              <RunFlow />
+            <FlowName />
             </div>
           </div>
         </Panel>
@@ -66,15 +62,11 @@ const Flow = () => {
 };
 
 const FlowWrapper = () => (
-  <CurrentFlowProvider>
     <ReactFlowProvider>
       <div className={styles.wrapper}>
-      
         <Flow />
-        
       </div>
     </ReactFlowProvider>
-  </CurrentFlowProvider>
 );
 
 export default FlowWrapper;

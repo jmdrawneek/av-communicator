@@ -1,7 +1,16 @@
+@use '@/config/variables.scss' as config;
+
 .flowNameContainer {
   display: flex;
-  width: 400px;
+  width: 100%;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   color: #3e3e3e;
+}
+
+.onWhite {
+  background-color: config.$primary-color;
+  color: white;
+  padding: 1rem 2rem;
 }

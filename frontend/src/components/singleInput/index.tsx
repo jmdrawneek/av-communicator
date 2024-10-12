@@ -1,3 +1,5 @@
+import { Button } from "../button";
+
 export const SingleInput = ({ updateValue, label = null, size = 10 }: { updateValue: (newName: string) => void, label?: React.ReactNode, size?: number }) => {
     return (
       <form onSubmit={(e) => {
@@ -8,7 +10,7 @@ export const SingleInput = ({ updateValue, label = null, size = 10 }: { updateVa
       }}> 
         {label}
         <input type='text' name='name' size={size} />
-        <button type='submit'>Save</button>
+        <Button buttonStyle='primarySmallOnDark' btnType='submit'>Save</Button>
       </form>
     )
   }

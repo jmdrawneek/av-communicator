@@ -7,7 +7,7 @@ export interface AutomationConfig {
         actionType: string;
         data: {
             label?: string;
-            signal?: {
+            signal: {
                 set: (arg0: { active: boolean; id: string }) => void;
             };
         };
@@ -35,7 +35,7 @@ export const convertFlowToCommand = ({ flow }: { flow: savedFlow }) => {
             console.log({ nodeList })
             prev.steps.push(...nodeList.map(({ type, data, id }) => ({
                 actionType: type as string,
-                data,
+                data: data as AutomationConfig['steps'][number]['data'],
                 source,
                 id
             })));

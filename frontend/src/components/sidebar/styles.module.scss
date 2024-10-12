@@ -5,12 +5,25 @@
     padding: 20px;
     width: 450px;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
 }
 
 .navList {
     list-style: none;
+    margin-top: 1rem;;
 
     & li {
-        margin-bottom: 1rem;;
+        margin-bottom: 1rem;
+    }
+}
+
+.mainNav {
+    padding: 1rem;
+    
+    & button {
+        width: 100%;
     }
 }

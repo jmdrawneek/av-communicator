@@ -6,8 +6,6 @@ import { useCurrentFlow } from "@/context/currentFlowContext";
 
 import { Button } from "@/components/button";
 
-import styles from './styles.module.scss';
-
 const startNode = {
     id: '0',
     type: 'startNode',
@@ -34,11 +32,9 @@ export const AddNode = () => {
     }
 
     return (
-        <div className={styles.wrapper}>
-            <Button buttonStyle="primary" onClick={handleAddNode}>
-                Add a step
-                <span>+</span>
-            </Button>
-        </div>
+        <Button buttonStyle="primary" onClick={handleAddNode}>
+            Add a step
+            <span>+</span>
+        </Button>
     )
 }

@@ -1,0 +1,19 @@
+.deviceAction {
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.deviceActionsList {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+
+    & > li {
+        
+
+        & > button {
+            width: auto;
+        }
+    }
+}

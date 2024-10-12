@@ -40,6 +40,7 @@ export const CurrentFlowProvider: React.FC<{ children: ReactNode }> = ({ childre
   const [loadedFlow, setLoadedFlow] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('setting current flow', {nodes, edges, flowName})
     setCurrentFlow({ nodes, edges, flowName });
   }, [nodes, edges, flowName]);
 
@@ -58,6 +59,7 @@ export const CurrentFlowProvider: React.FC<{ children: ReactNode }> = ({ childre
   const onConnect = useCallback((params: Connection) => setEdges((eds) => addEdge(params, eds)), []);
 
   const setNodes = useCallback((nodes: Node[]) => {
+    console.log({nodes})
     setNodesInternal(nodes.map((node) => ({ 
       ...node, 
       data: { 

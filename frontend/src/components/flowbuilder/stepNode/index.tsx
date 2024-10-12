@@ -5,18 +5,25 @@ import { effect } from '@maverick-js/signals';
 
 import { StepWrapper } from '../stepWrapper';
 import { SingleInput } from '../../singleInput';
+import { Modal } from '../../modal';
+
 import { useCurrentFlow } from '@/context/currentFlowContext';
 
 import type { Node } from '@xyflow/react';
 
 import styles from './styles.module.scss';
+import { DeviceSelector } from '@/components/deviceSelector';
+import { Device } from '../../../../../shared/devices';
+import { Loader } from '@/components/loader';
 
+export type DeviceWithAction = Omit<Device, 'actions'> & {action: string, deviceId: string, ip: string};
 
 export const StepNode = ({ data, id }: { data: Node['data'] & { signal: () => { active: boolean, id: string } }, id: string }) => {
   const { updateNode } = useCurrentFlow(); 
   const [stepName, setStepName] = useState(data.label as string);
   const [isEditing, setIsEditing] = useState(false);
   const [nodeIsActive, setNodeIsActive] = useState(false);
+  const [selectedDevice, setSelectedDevice] = useState<DeviceWithAction | null>(data.device as DeviceWithAction || null);
 
   useEffect(() => {
     effect(() => {
@@ -24,7 +31,12 @@ export const StepNode = ({ data, id }: { data: Node['data'] & { signal: () => { 
       console.log(`React node ${id} updating`, active);
       setNodeIsActive(active);
     })
-  }, [data, data.signal])
+  }, [data, data.signal]);
+
+  const updateDeviceDetails = useCallback(({ name, action, deviceId, ip, type }: { name: string, action: string, deviceId: string, ip: string, type: string }) => {
+      setSelectedDevice({ name, action, deviceId, ip, type });
+      updateNode({ ...data, device: { name, action, deviceId, ip, type: 'device' } }, id);
+  }, [data, id, updateNode]);
 
   const updateName = useCallback((newName: string) => {
     setStepName(newName);
@@ -45,7 +57,9 @@ export const StepNode = ({ data, id }: { data: Node['data'] & { signal: () => { 
       <div className={styles.content}>
         {isEditing ? <SingleInput updateValue={updateName} /> : stepName}
         {!isEditing && <button className={styles.edit} onClick={() => setIsEditing(true)}>Edit</button>}
-        <div className={styles.active}>{nodeIsActive ? 'Active' : 'Inactive'}</div>
+        {nodeIsActive && <Loader colour='white' />}
+        {selectedDevice && <div className={styles.selectedDevice}>{selectedDevice.name} - {selectedDevice.action}</div>}
+        <Modal triggerText={selectedDevice ? 'Change device' : "Select Device"} title="Select Device" content={<DeviceSelector onSelect={updateDeviceDetails} />} />
       </div>
 
       <Handle
