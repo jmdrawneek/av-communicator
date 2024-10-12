@@ -1,5 +1,4 @@
 import styles from "./page.module.scss";
-import FlowBuilderInterface from "@/components/flowbuilder";
 
 export default function Home() {
   return (
@@ -7,7 +6,7 @@ export default function Home() {
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to AV Communicator</h1>
         
-          <FlowBuilderInterface />
+          Welcome to AV Communicator
       </main>
       <footer className={styles.footer}>
       
