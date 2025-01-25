@@ -84,3 +84,16 @@
         color: config.$secondary-color;
     }
 }
+
+.primarySmallDark {
+    @include baseButtonSmall;
+    border-color: #fff;
+    border-width: 2px;
+    color: #fff;
+    background-color: transparent;
+
+    &:hover {
+        border-color: config.$primary-color;
+        color: config.$primary-color;
+    }
+}

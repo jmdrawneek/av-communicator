@@ -10,23 +10,23 @@ import styles from './styles.module.scss';
 
 const Sidebar = () => {
     return (
-    <div className={styles.sidebarContainer}>
-        <nav className={styles.mainNav}>
-            <ul className={styles.navList}>
-                <li><Link href="/automation-builder"><Button buttonStyle="primaryOnDark">Automation Builder</Button></Link></li>
-                <li><Link href="/rooms"><Button buttonStyle="primaryOnDark">Rooms</Button></Link></li>
-                <li><Link href="/devices"><Button buttonStyle="primaryOnDark">Devices</Button></Link></li>
-                <li><Link href="/settings"><Button buttonStyle="primaryOnDark">Settings</Button></Link></li>
-            </ul>
-        </nav>
+        <div className={styles.sidebarContainer}>
+            <nav className={styles.mainNav}>
+                <ul className={styles.navList}>
+                    <li><Link href="/rooms"><Button buttonStyle="primaryOnDark">Rooms</Button></Link></li>
+                    <li><Link href="/devices"><Button buttonStyle="primaryOnDark">Devices</Button></Link></li>
+                    <li><Link href="/automation-builder"><Button buttonStyle="primaryOnDark">Automatons</Button></Link></li>
+                    <li><Link href="/settings"><Button buttonStyle="primaryOnDark">Settings</Button></Link></li>
+                </ul>
+            </nav>
 
-        <nav className={styles.footerNav}>
+            <nav className={styles.footerNav}>
                 <FlowControls />
-            <ul className={styles.navList}>
-                <li><Link href="/logout"><Button buttonStyle="primaryOnDark">Logout</Button></Link></li>
-            </ul>
-        </nav>
-    </div>
+                <ul className={styles.navList}>
+                    <li><Link href="/logout"><Button buttonStyle="primaryOnDark">Logout</Button></Link></li>
+                </ul>
+            </nav>
+        </div>
     );
 };
 

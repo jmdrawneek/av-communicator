@@ -1,2 +1,17 @@
-$primary-color: #002845;
-$secondary-color: #007bff;
+// Theme Colors
+$primary-color: #002845;      // Deep navy blue
+$secondary-color: #0066B3;    // Bright blue
+$accent-color: #00A3E0;       // Light blue
+$success-color: #00B488;      // Teal green
+$warning-color: #FFB800;      // Amber
+$error-color: #E63946;        // Red
+$neutral-dark: #2C3E50;       // Dark gray blue
+$neutral-medium: #95A5A6;     // Medium gray
+$neutral-light: #ECF0F1;      // Light gray
+$background-color: #FFFFFF;    // White
+
+// You can also use these color variations
+$primary-light: lighten($primary-color, 15%);
+$primary-dark: darken($primary-color, 15%);
+$secondary-light: lighten($secondary-color, 15%);
+$secondary-dark: darken($secondary-color, 15%);
