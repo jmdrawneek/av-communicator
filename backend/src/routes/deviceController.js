@@ -1,6 +1,14 @@
 import { deviceCommands } from '../config/deviceCommands.js';
 import { makePostRequest } from '../utils/httpClient.js';
 
+const debug = process.env.DEBUG;
+
+function logDebug(...args) {
+    if (debug) {
+        console.log('[Device Controller]', ...args);
+    }
+}
+
 export async function runDeviceCommands(ctx) {
   // Validate request body
   const { device_name, ip_address, input, output, volume } = ctx.request.body;
@@ -78,4 +86,28 @@ export async function runDeviceCommands(ctx) {
       }
     };
   }
+}
+
+async function runCommand(req, res) {
+    const { deviceId, command, parameters } = req.body;
+    
+    logDebug(`Received command request for device ${deviceId}:`, { command, parameters });
+
+    try {
+        const device = await getDevice(deviceId);
+        if (!device) {
+            logDebug(`Device not found: ${deviceId}`);
+            return res.status(404).json({ error: 'Device not found' });
+        }
+
+        logDebug(`Found device: ${device.name} (${device.type})`);
+        
+        const result = await executeCommand(device, command, parameters);
+        logDebug(`Command executed successfully:`, result);
+        
+        res.json(result);
+    } catch (error) {
+        logDebug(`Error executing command:`, error);
+        res.status(400).json({ error: error.message });
+    }
 } 

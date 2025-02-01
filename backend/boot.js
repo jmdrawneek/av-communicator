@@ -1,7 +1,10 @@
+import 'dotenv/config';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import { errorHandler } from './src/middleware/errorHandler.js';
 import router from './src/routes/index.js';
+
+console.log(`Debug mode: ${process.env.DEBUG}`);
 
 // Initialize Koa app
 const app = new Koa();
@@ -25,6 +28,14 @@ const registeredRoutes = router.stack.map(layer => ({
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || 'localhost';
 
+const debug = process.env.DEBUG;
+
+function logDebug(...args) {
+    if (debug) {
+        console.log('[Boot]', ...args);
+    }
+}
+
 app.listen(PORT, () => {
   console.log('\n🚀 Server started successfully\n');
   
@@ -36,6 +47,9 @@ app.listen(PORT, () => {
     console.log(`   ${route.method.padEnd(6)} ${route.path}`);
   });
   console.log('\n✨ Ready for connections\n');
+
+  logDebug(`Debug logging enabled`);
+  console.log(`Server listening on port ${PORT}`);
 });
 
 // Error handler

@@ -3,6 +3,19 @@ import { runDeviceCommands } from './deviceController.js';
 
 const router = new Router();
 
+const debug = process.env.DEBUG;
+
+function logDebug(...args) {
+    if (debug) {
+        console.log('[Routes]', ...args);
+    }
+}
+
+router.use(async (ctx, next) => {
+    logDebug(`${ctx.method} ${ctx.path}`, ctx.request.body);
+    await next();
+});
+
 /**
  * POST /run
  * Executes commands on a specified device
