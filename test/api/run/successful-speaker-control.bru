@@ -1,0 +1,38 @@
+meta {
+  name: Control Speaker Successfully
+  description: Test successful control of a speaker device with all parameters
+}
+
+post {
+  url: {{baseUrl}}/run
+  body: json {
+    {
+      "device_name": "speaker",
+      "ip_address": "192.168.1.100",
+      "input": "hdmi1",
+      "output": "optical",
+      "volume": "50"
+    }
+  }
+  headers: {
+    Content-Type: application/json
+  }
+}
+
+tests {
+  test("should return 200", () => {
+    expect(res.status).toBe(200);
+  });
+
+  test("should return success true", () => {
+    expect(res.body.success).toBe(true);
+  });
+
+  test("should have results array", () => {
+    expect(res.body.results).toBeArray();
+  });
+
+  test("should not have errors", () => {
+    expect(res.body.errors).toBeUndefined();
+  });
+} 

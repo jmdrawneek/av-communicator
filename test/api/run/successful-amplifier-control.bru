@@ -1,0 +1,30 @@
+meta {
+  name: Control Amplifier Successfully
+  description: Test successful control of an amplifier device with all parameters
+}
+
+post {
+  url: {{baseUrl}}/run
+  body: json {
+    {
+      "device_name": "amplifier",
+      "ip_address": "192.168.1.101",
+      "input": "aux",
+      "output": "speakers",
+      "volume": "75"
+    }
+  }
+  headers: {
+    Content-Type: application/json
+  }
+}
+
+tests {
+  test("should return 200", () => {
+    expect(res.status).toBe(200);
+  });
+
+  test("should return success true", () => {
+    expect(res.body.success).toBe(true);
+  });
+} 
