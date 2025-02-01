@@ -1,7 +1,7 @@
 Brand,Device,Category,Command Description,Command Name,Command (ASCII),Command (Hex),Parameters
-Extron,IN1606,AV Switcher,Select video and audio from input X,Input Selection,X!!,X21 21,X = 1-6
-Extron,IN1606,AV Switcher,Select video only from input X,Video Only Input,X!&,X21 26,X = 1-6
-Extron,IN1606,AV Switcher,Select audio only from input X,Audio Only Input,X!$,X21 24,X = 1-6
+Extron,IN1606,AV Switcher,Select video and audio from input X,Input Selection,X1!,X21 21,X = 1-6
+Extron,IN1606,AV Switcher,Select video only from input X,Video Only Input,X1&,X21 26,X = 1-6
+Extron,IN1606,AV Switcher,Select audio only from input X,Audio Only Input,X1$,X21 24,X = 1-6
 Extron,IN1606,AV Switcher,View current video input,View Video Input,&,26,None
 Extron,IN1606,AV Switcher,View current audio input,View Audio Input,$,24,None
 Extron,IN1606,AV Switcher,View current video and audio input,View Current Input,!,21,None
