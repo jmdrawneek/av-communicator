@@ -1,5 +1,5 @@
 export const deviceList = {
-    Sony_Light_XLMK2ef: {
+    Sony_XLMK2ef: {
         name: 'Light 1 Model 1',
         manufacturer: 'Sony',
         model: 'XLMK2ef',
@@ -31,7 +31,7 @@ export const deviceList = {
             }
         ]
     },
-    Sony_Screen_FTG54d: {
+    Sony_FTG54d: {
         name: 'Screen 1 Model 1',
         manufacturer: 'Sony',
         model: 'FTG54d',
@@ -55,7 +55,7 @@ export const deviceList = {
             }
         ]
     },
-    Sony_HDMI_Switch_UDNGHF: {
+    Sony_UDNGHF: {
         name: 'HDMI Switch 1 Model 1',
         manufacturer: 'Sony',
         model: 'UDNGHF',
