@@ -1,0 +1,30 @@
+meta {
+  name: Missing Required Fields
+  description: Test error handling when required fields are missing
+}
+
+post {
+  url: {{baseUrl}}/run
+  body: json {
+    {
+      "device_name": "speaker"
+    }
+  }
+  headers: {
+    Content-Type: application/json
+  }
+}
+
+tests {
+  test("should return 400", () => {
+    expect(res.status).toBe(400);
+  });
+
+  test("should return success false", () => {
+    expect(res.body.success).toBe(false);
+  });
+
+  test("should have error message about missing fields", () => {
+    expect(res.body.error.message).toInclude("Missing required fields");
+  });
+} 

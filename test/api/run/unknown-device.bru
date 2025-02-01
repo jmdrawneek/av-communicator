@@ -1,0 +1,31 @@
+meta {
+  name: Unknown Device
+  description: Test error handling when device is not found
+}
+
+post {
+  url: {{baseUrl}}/run
+  body: json {
+    {
+      "device_name": "unknown-device",
+      "ip_address": "192.168.1.100"
+    }
+  }
+  headers: {
+    Content-Type: application/json
+  }
+}
+
+tests {
+  test("should return 404", () => {
+    expect(res.status).toBe(404);
+  });
+
+  test("should return success false", () => {
+    expect(res.body.success).toBe(false);
+  });
+
+  test("should have error message about unknown device", () => {
+    expect(res.body.error.message).toInclude("not found in supported devices");
+  });
+} 
