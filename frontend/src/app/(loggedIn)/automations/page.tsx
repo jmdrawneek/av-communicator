@@ -27,8 +27,10 @@ const demoAutomations: AutomationConfig[] = [
 ];
 
 const AutomationList = () => {
-    const { notSavedAutomations, listAutomationsLocalStorage } = useAutomationContext();
+    const { notSavedAutomations, listAutomationsLocalStorage, saveAutomation } = useAutomationContext();
     const [savedAutomations, setSavedAutomations] = useState<AutomationConfig[]>([]);
+    const [editingId, setEditingId] = useState<string | null>(null);
+    const [editName, setEditName] = useState("");
 
     useEffect(() => {
         // Refresh automations list when component mounts
@@ -41,6 +43,33 @@ const AutomationList = () => {
             }
         });
     }, [listAutomationsLocalStorage]);
+
+    const handleStartEdit = (automation: AutomationConfig) => {
+        setEditingId(automation.id);
+        setEditName(automation.name);
+    };
+
+    const handleSaveEdit = (automation: AutomationConfig) => {
+        const updatedAutomation = {
+            ...automation,
+            name: editName
+        };
+        saveAutomation(updatedAutomation);
+
+        // Update local state
+        if (automation.notSaved) {
+            // If it was an unsaved automation, update the notSavedAutomations state
+            setSavedAutomations(prev => [...prev, updatedAutomation]);
+        } else {
+            // If it was a saved automation, update it in the savedAutomations state
+            setSavedAutomations(prev =>
+                prev.map(a => a.id === automation.id ? updatedAutomation : a)
+            );
+        }
+
+        setEditingId(null);
+        setEditName("");
+    };
 
     const allAutomations = [...savedAutomations, ...notSavedAutomations];
 
@@ -61,9 +90,31 @@ const AutomationList = () => {
                         >
                             <div className="flex items-center justify-between">
                                 <div className="space-y-1">
-                                    <h3 className="text-lg font-semibold text-foreground">
-                                        {automation.name}
-                                    </h3>
+                                    {editingId === automation.id ? (
+                                        <input
+                                            type="text"
+                                            value={editName}
+                                            onChange={(e) => setEditName(e.target.value)}
+                                            onBlur={() => handleSaveEdit(automation)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    handleSaveEdit(automation);
+                                                } else if (e.key === 'Escape') {
+                                                    setEditingId(null);
+                                                    setEditName("");
+                                                }
+                                            }}
+                                            className="w-full rounded-md border border-border/20 bg-card px-3 py-2 text-lg font-semibold focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+                                            autoFocus
+                                        />
+                                    ) : (
+                                        <h3
+                                            className="text-lg font-semibold text-foreground cursor-pointer hover:text-accent"
+                                            onClick={() => handleStartEdit(automation)}
+                                        >
+                                            {automation.name}
+                                        </h3>
+                                    )}
                                     <div className="flex items-center gap-4">
                                         {automation.roomId && (
                                             <Link
