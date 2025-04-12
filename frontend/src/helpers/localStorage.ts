@@ -18,6 +18,7 @@ export const saveFlow = ({ flowName, flow }: { flowName: string, flow: CurrentAu
   const cleanNodes = flow.nodes.map((node: Node) => {
     const { data, ...rest } = node;
     // Remove non-serializable properties
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { signal: _signal, onSignal: _onSignal, onConnect: _onConnect, onDisconnect: _onDisconnect, onDelete: _onDelete, onUpdate: _onUpdate, ...cleanData } = data;
     
     return {

@@ -8,7 +8,6 @@ import type { DeviceWithAction } from '../flowbuilder/stepNode';
 interface DeviceCardProps {
     device: Device;
     deviceId: string;
-    status: 'online' | 'offline';
     className?: string;
     onSelect?: (device: DeviceWithAction) => void;
 }
@@ -52,7 +51,12 @@ export const DeviceCard = ({
                     <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => onSelect(device)}
+                        onClick={() => onSelect({
+                            ...device,
+                            deviceId,
+                            ip: '',
+                            action: '',
+                        })}
                         className="transition-transform hover:scale-105"
                     >
                         <Plus className="h-4 w-4" color="white" />

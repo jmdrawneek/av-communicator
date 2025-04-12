@@ -29,5 +29,5 @@ export const SaveFlow = () => {
         });
     }, [automationName, currentAutomation]);
 
-    return <Button buttonStyle="primary" onClick={saveFlowFn}>Save</Button>;
+    return <Button variant="primary" size="lg" onClick={saveFlowFn}>Save</Button>;
 };

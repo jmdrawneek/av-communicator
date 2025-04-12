@@ -6,8 +6,6 @@ import Link from "next/link";
 import { DashboardProvider, useDashboardContext } from "@/context/dashboardContext";
 import { Button } from "@/components/button";
 
-import styles from "./styles.module.scss";
-
 export default function Page({
     params,
 }: {
@@ -38,39 +36,42 @@ export default function Page({
 
     return (
         <DashboardProvider>
-            <div className={styles.container}>
-                <div className={`${styles.header} p-8`}>
+            <div className="container mx-auto p-8">
+                <div className="mb-8">
                     {currentDashboard?.roomId && (
-                        <Link href={`/rooms/${currentDashboard.roomId}`} className={styles.backLink}>
+                        <Link
+                            href={`/rooms/${currentDashboard.roomId}`}
+                            className="text-muted-foreground hover:text-accent transition-colors"
+                        >
                             ← Back to room
                         </Link>
                     )}
 
-                    <div className={styles.titleContainer}>
+                    <div className="flex items-center justify-between mt-4">
                         {isEditing ? (
                             <input
                                 type="text"
                                 value={dashboardName}
                                 onChange={(e) => setDashboardName(e.target.value)}
-                                className={styles.titleInput}
+                                className="text-2xl font-semibold bg-secondary/50 border border-border/20 rounded-md px-3 py-2 w-full max-w-[500px] focus:outline-none focus:ring-2 focus:ring-ring"
                             />
                         ) : (
-                            <h1 className={styles.title}>{currentDashboard?.name}</h1>
+                            <h1 className="text-2xl font-semibold text-foreground">{currentDashboard?.name}</h1>
                         )}
 
-                        <div className={styles.buttons}>
+                        <div className="flex gap-2">
                             {isEditing ? (
-                                <Button buttonStyle="primarySmall" onClick={handleSave}>Save</Button>
+                                <Button variant="primary" size="sm" onClick={handleSave}>Save</Button>
                             ) : (
-                                <Button buttonStyle="primarySmall" onClick={() => setIsEditing(true)}>Edit</Button>
+                                <Button variant="primary" size="sm" onClick={() => setIsEditing(true)}>Edit</Button>
                             )}
                         </div>
                     </div>
                 </div>
 
-                <div className={styles.dashboardContent}>
-                    <h2>Dashboard Builder</h2>
-                    <p>This is where the dashboard builder UI would be implemented.</p>
+                <div className="rounded-lg border border-border/20 bg-card p-6 shadow-lg">
+                    <h2 className="text-xl font-semibold mb-4">Dashboard Builder</h2>
+                    <p className="text-muted-foreground">This is where the dashboard builder UI would be implemented.</p>
                     {/* Dashboard builder components would go here */}
                 </div>
             </div>

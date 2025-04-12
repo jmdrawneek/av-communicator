@@ -9,7 +9,7 @@ import { Button } from "../button";
 
 import styles from "./styles.module.scss";
 
-const CardInner = ({ item, isEditing, itemName, updateItemName, namePlaceholder }: {
+const CardInner = ({ isEditing, itemName, updateItemName, namePlaceholder }: {
     item: RoomConfig | DashboardConfig,
     isEditing: boolean,
     itemName: string,
@@ -39,7 +39,7 @@ export const MenuCard = ({ item, cardType, saveItem, deleteItem, namePlaceholder
         // Save the room with the new name.
         saveItem({ ...item, name: itemName, ...(currentRoom ? { roomId: currentRoom.id } : {}) });
         setIsEditing(false);
-    }, [itemName, item, saveItem]);
+    }, [saveItem, item, itemName, currentRoom]);
 
     const updateItemName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setItemName(e.target.value);
@@ -77,9 +77,9 @@ export const MenuCard = ({ item, cardType, saveItem, deleteItem, namePlaceholder
                     namePlaceholder={namePlaceholder}
                 />)}
             <div className={styles.buttons}>
-                {isEditing && <Button buttonStyle="primarySmallDark" onClick={save} >Save</Button>}
-                {!isEditing && <Button buttonStyle="primarySmallDark" onClick={edit}>Edit</Button>}
-                {(!item.notSaved && isEditing) && <Button buttonStyle="primarySmallDark" onClick={deleteItemCb}>Delete</Button>}
+                {isEditing && <Button variant="primary" size="sm" onClick={save} >Save</Button>}
+                {!isEditing && <Button variant="primary" size="sm" onClick={edit}>Edit</Button>}
+                {(!item.notSaved && isEditing) && <Button variant="primary" size="sm" onClick={deleteItemCb}>Delete</Button>}
             </div>
         </div>
     );

@@ -10,7 +10,7 @@ export const SingleInput = ({ updateValue, label = null, size = 10 }: { updateVa
       }}> 
         {label}
         <input type='text' name='name' size={size} />
-        <Button buttonStyle='primarySmallOnDark' btnType='submit'>Save</Button>
+        <Button variant="primary" size="lg" btnType='submit'>Save</Button>
       </form>
     )
   }

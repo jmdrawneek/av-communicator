@@ -3,8 +3,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useCurrentAutomation } from '@/context/currentAutomationContext';
 import { loadFlow, listFlows } from '@/helpers/localStorage';
 
-import type { savedFlow } from '@/components/flowbuilder/saveFlow';
-
 import { Button } from '@/components/button';
 
 export const LoadFlow = () => {

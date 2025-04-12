@@ -62,5 +62,5 @@ export const RunFlow = () => {
 
     }, [automationName, currentAutomation]);
 
-    return <Button buttonStyle="primary" onClick={saveFlowFn}>Run Automation</Button>;
+    return <Button variant="primary" size="lg" onClick={saveFlowFn}>Run Automation</Button>;
 }

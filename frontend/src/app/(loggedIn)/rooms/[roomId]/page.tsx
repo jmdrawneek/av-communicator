@@ -9,8 +9,6 @@ import { DashboardController } from "@/components/dashboardController";
 import { DashboardProvider } from "@/context/dashboardContext";
 import { Button } from "@/components/button";
 
-import styles from "./styles.module.scss";
-
 export default function Page({
     params,
 }: {
@@ -40,40 +38,43 @@ export default function Page({
 
     return (
         <DashboardProvider>
-            <div className={styles.container}>
-                <div className={`${styles.header} p-8`}>
-                    <Link href="/rooms" className={styles.backLink}>
+            <div className="container mx-auto p-8">
+                <div className="mb-8">
+                    <Link
+                        href="/rooms"
+                        className="text-muted-foreground hover:text-accent transition-colors"
+                    >
                         ← Back to rooms
                     </Link>
 
-                    <div className={styles.titleContainer}>
+                    <div className="flex items-center justify-between mt-4">
                         {isEditing ? (
                             <input
                                 type="text"
                                 value={roomName}
                                 onChange={(e) => setRoomName(e.target.value)}
-                                className={styles.titleInput}
+                                className="text-2xl font-semibold bg-secondary/50 border border-border/20 rounded-md px-3 py-2 w-full max-w-[500px] focus:outline-none focus:ring-2 focus:ring-ring"
                             />
                         ) : (
-                            <h1 className={styles.title}>{currentRoom?.name}</h1>
+                            <h1 className="text-2xl font-semibold text-foreground">{currentRoom?.name}</h1>
                         )}
 
-                        <div className={styles.buttons}>
+                        <div className="flex gap-2">
                             {isEditing ? (
-                                <Button buttonStyle="primarySmall" onClick={handleSave}>Save</Button>
+                                <Button variant="primary" size="sm" onClick={handleSave}>Save</Button>
                             ) : (
-                                <Button buttonStyle="primarySmall" onClick={() => setIsEditing(true)}>Edit</Button>
+                                <Button variant="primary" size="sm" onClick={() => setIsEditing(true)}>Edit</Button>
                             )}
                         </div>
                     </div>
 
-                    <p className={styles.description}>
+                    <p className="mt-4 text-muted-foreground">
                         Manage dashboards for this room. Add a new dashboard or edit existing ones.
                     </p>
                 </div>
 
                 {currentRoom && <DashboardController roomId={currentRoom.id} />}
-                <div className={styles.dashboards}>
+                <div className="mt-8">
                     {currentRoom && <DashboardOrganiser currentRoom={currentRoom} />}
                 </div>
             </div>

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import { Device } from "../../../types/device";
+import { Device } from "../../../../../shared/devices";
 
 interface DeviceListProps {
     devices: Device[];
@@ -9,19 +10,20 @@ interface DeviceListProps {
 
 export const DeviceList = ({ devices, onDeviceSelect, selectedDevice }: DeviceListProps) => {
     return (
-        <div className="flex flex-col gap-2">
-            {devices.map((device) => (
-                <div
-                    key={device.id}
-                    onClick={() => onDeviceSelect(device)}
-                    className={`p-4 rounded-lg cursor-pointer transition-colors duration-200 ${selectedDevice?.id === device.id
-                            ? 'bg-[#13ba3a] text-white'
-                            : 'bg-[#41c2eed6] text-black hover:bg-[#13ba3a] hover:text-white'
-                        }`}
-                >
-                    {device.name}
-                </div>
-            ))}
-        </div>
+        <></>
+        // <div className="flex flex-col gap-2">
+        //     {devices.map((device) => (
+        //         <div
+        //             key={device.id}
+        //             onClick={() => onDeviceSelect(device)}
+        //             className={`p-4 rounded-lg cursor-pointer transition-colors duration-200 ${selectedDevice?.id === device.id
+        //                 ? 'bg-[#13ba3a] text-white'
+        //                 : 'bg-[#41c2eed6] text-black hover:bg-[#13ba3a] hover:text-white'
+        //                 }`}
+        //         >
+        //             {device.name}
+        //         </div>
+        //     ))}
+        // </div>
     );
 }; 

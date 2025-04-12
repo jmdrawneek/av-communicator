@@ -5,10 +5,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: "primary" | "secondary" | "destructive" | "outline" | "ghost" | "link";
     size?: "sm" | "md" | "lg" | "icon";
     isLoading?: boolean;
+    btnType?: "button" | "submit" | "reset";
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant = "primary", size = "md", isLoading, children, ...props }, ref) => {
+    ({ className, variant = "primary", size = "md", isLoading, children, btnType = "button", ...props }, ref) => {
         const baseStyles = "btn";
 
         const variantStyles = {
@@ -30,6 +31,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         return (
             <button
                 ref={ref}
+                type={btnType}
                 className={cn(
                     baseStyles,
                     variantStyles[variant],
@@ -51,3 +53,5 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         );
     }
 );
+
+Button.displayName = "Button";

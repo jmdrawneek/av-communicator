@@ -100,6 +100,23 @@ export const AutomationProvider: React.FC<{ children: ReactNode }> = ({ children
         });
     }, []);
 
+    const setNodes = useCallback((nodes: Node[]) => {
+        const processedNodes = nodes.map(addSignalToNode);
+
+        setNodesInternal(processedNodes);
+
+        // Update currentAutomation if it exists
+        if (currentAutomation) {
+            setCurrentAutomation(prev => {
+                if (!prev) return null;
+                return {
+                    ...prev,
+                    nodes: processedNodes
+                };
+            });
+        }
+    }, [currentAutomation]);
+
     const getAutomation = useCallback(async (id: string): Promise<AutomationConfig | null> => {
         // First check if it's the current automation
         if (currentAutomation && currentAutomation.id === id) {
@@ -143,7 +160,7 @@ export const AutomationProvider: React.FC<{ children: ReactNode }> = ({ children
         }
 
         return null;
-    }, [automations, currentAutomation, notSavedAutomations]);
+    }, [automations, currentAutomation, notSavedAutomations, setNodes]);
 
     const addAutomation = useCallback((roomId?: string, dashboardId?: string) => {
         const newAutomation: AutomationConfig = {
@@ -279,23 +296,6 @@ export const AutomationProvider: React.FC<{ children: ReactNode }> = ({ children
                 return {
                     ...prev,
                     edges: addEdge(params, prev.edges)
-                };
-            });
-        }
-    }, [currentAutomation]);
-
-    const setNodes = useCallback((nodes: Node[]) => {
-        const processedNodes = nodes.map(addSignalToNode);
-
-        setNodesInternal(processedNodes);
-
-        // Update currentAutomation if it exists
-        if (currentAutomation) {
-            setCurrentAutomation(prev => {
-                if (!prev) return null;
-                return {
-                    ...prev,
-                    nodes: processedNodes
                 };
             });
         }

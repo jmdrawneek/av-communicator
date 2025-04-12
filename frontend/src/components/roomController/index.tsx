@@ -9,6 +9,6 @@ export const RoomController = () => {
     const { addRoom } = useRoomContext();
 
     return <div className={styles.controls}>
-        <Button buttonStyle="primarySmall" onClick={addRoom}>Add Room</Button>
+        <Button variant="primary" size="sm" onClick={addRoom}>Add Room</Button>
     </div>;
 }

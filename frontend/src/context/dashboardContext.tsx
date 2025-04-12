@@ -21,7 +21,7 @@ export type DashboardConfig = {
     flows: string[];
     notSaved: boolean;
     id: string;
-    layout: any;
+    layout: unknown;
     roomId: string;
 }
 

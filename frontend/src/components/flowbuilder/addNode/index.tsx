@@ -3,7 +3,6 @@ import React from "react";
 import type { Node } from '@xyflow/react';
 
 import { useAutomationContext } from "@/context/automationContext";
-
 import { Button } from "@/components/button";
 
 const startNode = {
@@ -34,9 +33,9 @@ export const AddNode = () => {
     }
 
     return (
-        <Button buttonStyle="primary" onClick={handleAddNode}>
+        <Button variant="primary" size="md" onClick={handleAddNode} className="flex items-center gap-2">
             Add a step
-            <span>+</span>
+            <span className="text-lg">+</span>
         </Button>
     )
 }

@@ -4,8 +4,6 @@ import { useAutomationContext } from '@/context/automationContext';
 import { convertFlowToCommand } from '@/helpers/convertFlowToCommand';
 import { Button } from '@/components/button';
 
-import styles from './styles.module.scss';
-
 export const RunAutomation = () => {
     const { nodes, edges, automationName, currentAutomation } = useAutomationContext();
 
@@ -16,7 +14,7 @@ export const RunAutomation = () => {
             flow: {
                 nodes,
                 edges,
-                flowName: automationName
+                automationName
             }
         });
 
@@ -28,7 +26,7 @@ export const RunAutomation = () => {
     }, [nodes, edges, automationName, currentAutomation]);
 
     return (
-        <Button buttonStyle="primarySmall" onClick={runAutomation}>
+        <Button variant="primary" size="sm" onClick={runAutomation}>
             Run Automation
         </Button>
     );
