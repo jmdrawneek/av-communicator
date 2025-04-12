@@ -39,8 +39,15 @@ export default function Page({
             name: automationName
         }
         console.log('SAving config ', { newItem, currentAutomationContext, currentAutomation })
-        if (newItem && newItem.id) {
-            saveAutomation(newItem);
+        if (newItem?.id) {
+            saveAutomation({
+                id: newItem.id,
+                name: newItem.name,
+                nodes: newItem.nodes || [],
+                edges: newItem.edges || [],
+                roomId: newItem.roomId,
+                dashboardId: newItem.dashboardId
+            });
             setIsEditing(false);
         }
     };
