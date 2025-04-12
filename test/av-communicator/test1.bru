@@ -4,8 +4,18 @@ meta {
   seq: 2
 }
 
-get {
-  url: localhost:3000/run
-  body: none
+post {
+  url: http://localhost:3000/run
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "device_name": "speaker",
+    "ip_address": "192.168.1.100",
+    "input": "hdmi1",
+    "output": "optical",
+    "volume": "50"
+  }
 }

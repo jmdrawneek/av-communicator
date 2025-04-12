@@ -32,13 +32,6 @@
     margin: 0;
 }
 
-.description {
-    color: #666;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
 .titleInput {
     font-size: 2rem;
     padding: 0.5rem;
@@ -53,6 +46,35 @@
     gap: 1rem;
 }
 
-.dashboards {
-    margin-top: 2rem;
+.metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
 }
+
+.metadataItem {
+    display: inline-flex;
+    align-items: center;
+    
+    a {
+        margin-left: 0.25rem;
+        color: #0070f3;
+        text-decoration: none;
+        
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.automationContent {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 500px;
+    width: 100%;
+} 

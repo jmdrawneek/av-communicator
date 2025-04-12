@@ -15,7 +15,7 @@ const Sidebar = () => {
                 <ul className={styles.navList}>
                     <li><Link href="/rooms"><Button buttonStyle="primaryOnDark">Rooms</Button></Link></li>
                     <li><Link href="/devices"><Button buttonStyle="primaryOnDark">Devices</Button></Link></li>
-                    <li><Link href="/automation-builder"><Button buttonStyle="primaryOnDark">Automatons</Button></Link></li>
+                    <li><Link href="/automations"><Button buttonStyle="primaryOnDark">Automations</Button></Link></li>
                     <li><Link href="/settings"><Button buttonStyle="primaryOnDark">Settings</Button></Link></li>
                 </ul>
             </nav>

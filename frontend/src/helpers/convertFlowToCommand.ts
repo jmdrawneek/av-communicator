@@ -18,7 +18,7 @@ export interface AutomationConfig {
 }
 
 export const convertFlowToCommand = ({ flow }: { flow: savedFlow }) => {
-    const { nodes, edges, flowName }: { nodes: Node[]; edges: Edge[]; flowName: string } = flow;
+    const { nodes, edges, automationName }: { nodes: Node[]; edges: Edge[]; automationName: string } = flow;
 
     const config = edges
         // Put the edges in order so we know what step is before what.
@@ -43,7 +43,7 @@ export const convertFlowToCommand = ({ flow }: { flow: savedFlow }) => {
 
             return prev;
         }, {
-            flowName,
+            flowName: automationName,
             steps: []
         } as AutomationConfig);
 

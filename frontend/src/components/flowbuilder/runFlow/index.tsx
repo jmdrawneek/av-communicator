@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { useCurrentFlow } from '@/context/currentFlowContext';
+import { useCurrentAutomation } from '@/context/currentAutomationContext';
 import { convertFlowToCommand } from '@/helpers/convertFlowToCommand';
 
 import { Button } from '@/components/button';
@@ -23,7 +23,7 @@ const runFlow = ({ flowName, steps }: AutomationConfig) => {
                 if ('signal' in data) {
                     sourcePromise.then(() => {
                         startProcess({ signalFinished: yes, nodeListener: data.signal, id })
-                        
+
                     });
                 }
                 else {
@@ -34,27 +34,33 @@ const runFlow = ({ flowName, steps }: AutomationConfig) => {
     });
 
     Array.from(promiseMap.keys()).forEach((key) => {
-        promiseMap.set(key, 
+        promiseMap.set(key,
             Promise.all(promiseMap.get(key)
                 // Start the processes once in sequence.
                 .map((fn: () => Promise<string>) => fn())
-        ))
+            ))
     });
 }
 
 
 export const RunFlow = () => {
-    const { currentFlow, flowName } = useCurrentFlow();
+    const { currentAutomation, automationName } = useCurrentAutomation();
 
     const saveFlowFn = useCallback(async () => {
-        if (!flowName || !currentFlow) return;
-        const flow = convertFlowToCommand({ flow: currentFlow });
+        if (!automationName || !currentAutomation) return;
+        const flow = convertFlowToCommand({
+            flow: {
+                nodes: currentAutomation.nodes,
+                edges: currentAutomation.edges,
+                automationName: automationName
+            }
+        });
 
         console.log({ flow })
 
         runFlow(flow)
 
-    }, [flowName, currentFlow]);
+    }, [automationName, currentAutomation]);
 
-    return <Button buttonStyle="primary" onClick={saveFlowFn}>Run Flow</Button>;
+    return <Button buttonStyle="primary" onClick={saveFlowFn}>Run Automation</Button>;
 }

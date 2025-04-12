@@ -3,10 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { useRoomContext } from "@/context/roomContext";
-import { DashboardOrganiser } from "@/components/dashboardOrganiser";
-import { DashboardController } from "@/components/dashboardController";
-import { DashboardProvider } from "@/context/dashboardContext";
+import { DashboardProvider, useDashboardContext } from "@/context/dashboardContext";
 import { Button } from "@/components/button";
 
 import styles from "./styles.module.scss";
@@ -14,25 +11,26 @@ import styles from "./styles.module.scss";
 export default function Page({
     params,
 }: {
-    params: Promise<{ roomId: string }>
+    params: Promise<{ dashboardId: string }>
 }) {
-    const { getRoom, currentRoom, saveRoom } = useRoomContext();
+    const { getDashboard, currentDashboard, saveDashboard } = useDashboardContext();
     const [isEditing, setIsEditing] = useState(false);
-    const [roomName, setRoomName] = useState("");
+    const [dashboardName, setDashboardName] = useState("");
 
     useEffect(() => {
         (async () => {
-            const theRoomId = (await params).roomId;
-            const theRoom = await getRoom(theRoomId);
-            setRoomName(theRoom?.name || "");
+            const theDashboardId = (await params).dashboardId;
+            const theDashboard = await getDashboard(theDashboardId);
+
+            setDashboardName(theDashboard?.name || "");
         })();
-    }, [getRoom, params]);
+    }, [getDashboard, params]);
 
     const handleSave = () => {
-        if (currentRoom) {
-            saveRoom({
-                ...currentRoom,
-                name: roomName
+        if (currentDashboard) {
+            saveDashboard({
+                ...currentDashboard,
+                name: dashboardName
             });
             setIsEditing(false);
         }
@@ -42,20 +40,22 @@ export default function Page({
         <DashboardProvider>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <Link href="/rooms" className={styles.backLink}>
-                        ← Back to rooms
-                    </Link>
+                    {currentDashboard?.roomId && (
+                        <Link href={`/rooms/${currentDashboard.roomId}`} className={styles.backLink}>
+                            ← Back to room
+                        </Link>
+                    )}
 
                     <div className={styles.titleContainer}>
                         {isEditing ? (
                             <input
                                 type="text"
-                                value={roomName}
-                                onChange={(e) => setRoomName(e.target.value)}
+                                value={dashboardName}
+                                onChange={(e) => setDashboardName(e.target.value)}
                                 className={styles.titleInput}
                             />
                         ) : (
-                            <h1 className={styles.title}>{currentRoom?.name}</h1>
+                            <h1 className={styles.title}>{currentDashboard?.name}</h1>
                         )}
 
                         <div className={styles.buttons}>
@@ -66,15 +66,12 @@ export default function Page({
                             )}
                         </div>
                     </div>
-
-                    <p className={styles.description}>
-                        Manage dashboards for this room. Add a new dashboard or edit existing ones.
-                    </p>
                 </div>
 
-                {currentRoom && <DashboardController roomId={currentRoom.id} />}
-                <div className={styles.dashboards}>
-                    {currentRoom && <DashboardOrganiser currentRoom={currentRoom} />}
+                <div className={styles.dashboardContent}>
+                    <h2>Dashboard Builder</h2>
+                    <p>This is where the dashboard builder UI would be implemented.</p>
+                    {/* Dashboard builder components would go here */}
                 </div>
             </div>
         </DashboardProvider>

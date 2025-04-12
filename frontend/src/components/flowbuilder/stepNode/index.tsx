@@ -7,7 +7,7 @@ import { StepWrapper } from '../stepWrapper';
 import { SingleInput } from '../../singleInput';
 import { Modal } from '../../modal';
 
-import { useCurrentFlow } from '@/context/currentFlowContext';
+import { useCurrentAutomation } from '@/context/currentAutomationContext';
 
 import type { Node } from '@xyflow/react';
 
@@ -16,10 +16,10 @@ import { DeviceSelector } from '@/components/deviceSelector';
 import { Device } from '../../../../../shared/devices';
 import { Loader } from '@/components/loader';
 
-export type DeviceWithAction = Omit<Device, 'actions'> & {action: string, deviceId: string, ip: string};
+export type DeviceWithAction = Omit<Device, 'actions'> & { action: string, deviceId: string, ip: string };
 
 export const StepNode = ({ data, id }: { data: Node['data'] & { signal: () => { active: boolean, id: string } }, id: string }) => {
-  const { updateNode } = useCurrentFlow(); 
+  const { updateNode } = useCurrentAutomation();
   const [stepName, setStepName] = useState(data.label as string);
   const [isEditing, setIsEditing] = useState(false);
   const [nodeIsActive, setNodeIsActive] = useState(false);
@@ -34,8 +34,18 @@ export const StepNode = ({ data, id }: { data: Node['data'] & { signal: () => { 
   }, [data, data.signal]);
 
   const updateDeviceDetails = useCallback(({ name, action, deviceId, ip, type }: { name: string, action: string, deviceId: string, ip: string, type: string }) => {
-      setSelectedDevice({ name, action, deviceId, ip, type });
-      updateNode({ ...data, device: { name, action, deviceId, ip, type: 'device' } }, id);
+    const deviceData: DeviceWithAction = {
+      name,
+      action,
+      deviceId,
+      ip,
+      type,
+      manufacturer: '', // Add required fields from Device type
+      model: ''
+    };
+
+    setSelectedDevice(deviceData);
+    updateNode({ ...data, device: deviceData }, id);
   }, [data, id, updateNode]);
 
   const updateName = useCallback((newName: string) => {
@@ -53,7 +63,7 @@ export const StepNode = ({ data, id }: { data: Node['data'] & { signal: () => { 
         style={{ top: 0, bottom: 'auto', background: '#555' }}
         isConnectable={true}
       />
-      
+
       <div className={styles.content}>
         {isEditing ? <SingleInput updateValue={updateName} /> : stepName}
         {!isEditing && <button className={styles.edit} onClick={() => setIsEditing(true)}>Edit</button>}

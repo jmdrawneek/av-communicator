@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useCurrentFlow } from '@/context/currentFlowContext';
+import { useCurrentAutomation } from '@/context/currentAutomationContext';
 import { loadFlow, listFlows } from '@/helpers/localStorage';
 
 import type { savedFlow } from '@/components/flowbuilder/saveFlow';
@@ -10,7 +10,7 @@ import { Button } from '@/components/button';
 import styles from './styles.module.scss';
 
 export const LoadFlow = () => {
-    const { currentFlow, setEdges, setNodes, setFlowName, setLoadedFlow } = useCurrentFlow();
+    const { currentAutomation, setEdges, setNodes, setAutomationName, setLoadedAutomation } = useCurrentAutomation();
     const [flowList, setFlowList] = useState<string[]>([]);
     const [selectedFlow, setSelectedFlow] = useState<string>('');
     const [loadTrayOpen, setLoadTrayOpen] = useState(false);
@@ -26,33 +26,30 @@ export const LoadFlow = () => {
     }, [loadTrayOpen]);
 
     const loadFlowFn = useCallback(async () => {
-        if (!currentFlow) return;
+        if (!currentAutomation) return;
         const loadedFlow = await loadFlow({ flowName: selectedFlow }) as savedFlow;
-        console.log({loadedFlow})
+        console.log({ loadedFlow })
         setEdges(loadedFlow.edges);
         setNodes(loadedFlow.nodes);
-        setFlowName(selectedFlow);
-        setLoadedFlow(loadedFlow.flowName);
+        setAutomationName(selectedFlow);
+        setLoadedAutomation(selectedFlow);
         toggleLoadTray();
-    }, [currentFlow, setEdges, setNodes, setFlowName, setLoadedFlow, selectedFlow, toggleLoadTray]);
+    }, [currentAutomation, setEdges, setNodes, setAutomationName, setLoadedAutomation, selectedFlow, toggleLoadTray]);
 
     return (
-        <>
-            {!loadTrayOpen && <Button buttonStyle='secondaryOnDark' onClick={toggleLoadTray}>Load a flow</Button>}
+        <div>
+            <Button buttonStyle="primary" onClick={toggleLoadTray}>Load</Button>
             {loadTrayOpen && (
-                <div className={styles.loadFlowBlock}>
-                    <label className={styles.label} htmlFor='loaderPicker'>Load a flow:</label>
-                    <select id='loaderPicker' value={selectedFlow} onChange={(e) => setSelectedFlow(e.target.value)}>
-                        <option value="" disabled>Select a flow</option>
+                <div className={styles.loadTray}>
+                    <select value={selectedFlow} onChange={(e) => setSelectedFlow(e.target.value)}>
+                        <option value="">Select a flow</option>
                         {flowList.map((flowName) => (
-                            <option key={flowName} value={flowName}>
-                                {flowName}
-                            </option>
+                            <option key={flowName} value={flowName}>{flowName}</option>
                         ))}
                     </select>
-                    {selectedFlow && <Button onClick={loadFlowFn}>Load</Button>}
+                    <Button buttonStyle="primary" onClick={loadFlowFn}>Load Selected Flow</Button>
                 </div>
             )}
-        </>
+        </div>
     );
 };

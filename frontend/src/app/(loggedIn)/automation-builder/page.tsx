@@ -1,9 +1,26 @@
-import React from "react";
+'use client';
 
-import FlowWrapper from "@/components/flowbuilder";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-const Dashboard = () => {
-    return  (<FlowWrapper />);
-};
+export default function AutomationBuilder() {
+    const router = useRouter();
 
-export default Dashboard;
+    useEffect(() => {
+        router.replace('/automations');
+    }, [router]);
+
+    return (
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            flexDirection: 'column',
+            gap: '1rem'
+        }}>
+            <h2>Redirecting...</h2>
+            <p>Automations have moved to a new location. You are being redirected.</p>
+        </div>
+    );
+}
