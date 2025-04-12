@@ -1,4 +1,5 @@
 import localforage from 'localforage';
+import { signal } from '@maverick-js/signals';
 
 import type { AutomationConfig as CurrentAutomationConfig } from '@/context/currentAutomationContext';
 import { RoomConfig } from '@/context/roomContext';
@@ -14,34 +15,48 @@ localforage.config({
 // Flows
 export const saveFlow = ({ flowName, flow }: { flowName: string, flow: CurrentAutomationConfig | { nodes: Node[], edges: Edge[], flowName: string } }) => {
   // Create a clean copy of nodes with only clonable data
-  const cleanNodes = flow.nodes.map((node: Node) => ({
-    id: node.id,
-    type: node.type,
-    position: node.position,
-    data: {
-      ...node.data,
-      signal: null,
-      // Remove any other non-clonable data
-      onSignal: undefined,
-      onConnect: undefined,
-      onDisconnect: undefined,
-      onDelete: undefined,
-      onUpdate: undefined,
-    },
-    width: node.width,
-    height: node.height,
-    selected: node.selected,
-    dragging: node.dragging,
-  }));
+  const cleanNodes = flow.nodes.map((node: Node) => {
+    const { data, ...rest } = node;
+    // Remove non-serializable properties
+    const { signal: _signal, onSignal: _onSignal, onConnect: _onConnect, onDisconnect: _onDisconnect, onDelete: _onDelete, onUpdate: _onUpdate, ...cleanData } = data;
+    
+    return {
+      ...rest,
+      data: cleanData,
+      width: node.width,
+      height: node.height,
+      selected: node.selected,
+      dragging: node.dragging,
+    };
+  });
 
   return localforage.setItem("flows/" + flowName, { 
     nodes: cleanNodes, 
-    edges: flow.edges 
+    edges: flow.edges,
+    automationName: flowName
   });
 }
 
-export const loadFlow = ({ flowName }: { flowName: string }) => {
-  return localforage.getItem("flows/" + flowName);
+export const loadFlow = async ({ flowName }: { flowName: string }) => {
+  const flow = await localforage.getItem<{ nodes: Node[], edges: Edge[], automationName: string }>("flows/" + flowName);
+  if (!flow) return null;
+
+  // Reinitialize signals for all nodes
+  const nodesWithSignals = flow.nodes.map((node: Node) => {
+    const { data, ...rest } = node;
+    return {
+      ...rest,
+      data: {
+        ...data,
+        signal: signal({ active: false, id: node.id })
+      }
+    };
+  });
+
+  return {
+    ...flow,
+    nodes: nodesWithSignals
+  };
 }
 
 export const deleteFlow = ({ flowName }: { flowName: string }) => {

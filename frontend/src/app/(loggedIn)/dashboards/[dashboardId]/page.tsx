@@ -39,7 +39,7 @@ export default function Page({
     return (
         <DashboardProvider>
             <div className={styles.container}>
-                <div className={styles.header}>
+                <div className={`${styles.header} p-8`}>
                     {currentDashboard?.roomId && (
                         <Link href={`/rooms/${currentDashboard.roomId}`} className={styles.backLink}>
                             ← Back to room

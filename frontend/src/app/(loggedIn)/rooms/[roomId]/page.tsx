@@ -41,7 +41,7 @@ export default function Page({
     return (
         <DashboardProvider>
             <div className={styles.container}>
-                <div className={styles.header}>
+                <div className={`${styles.header} p-8`}>
                     <Link href="/rooms" className={styles.backLink}>
                         ← Back to rooms
                     </Link>

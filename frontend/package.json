@@ -11,21 +11,30 @@
   "dependencies": {
     "@maverick-js/signals": "^6.0.0",
     "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-slot": "^1.0.2",
     "@xyflow/react": "^12.2.1",
     "classnames": "^2.5.1",
+    "clsx": "^2.1.0",
+    "framer-motion": "^11.0.3",
     "localforage": "^1.10.0",
+    "lucide-react": "^0.331.0",
     "next": "14.2.8",
     "react": "^18",
     "react-dom": "^18",
     "sass": "^1.78.0",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7",
     "typescript-plugin-css-modules": "^5.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.17",
     "eslint": "^8",
     "eslint-config-next": "14.2.8",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
 }

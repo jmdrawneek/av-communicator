@@ -21,6 +21,14 @@ export interface AutomationConfig {
     notSaved?: boolean;
 }
 
+const addSignalToNode = (node: Node) => ({
+    ...node,
+    data: {
+        ...node.data,
+        signal: signal(node.data.signal || { active: false })
+    }
+})
+
 interface AutomationContextType {
     automations: AutomationConfig[];
     notSavedAutomations: AutomationConfig[];
@@ -39,6 +47,8 @@ interface AutomationContextType {
     addAutomation: (roomId?: string, dashboardId?: string) => void;
     saveAutomation: (automation: AutomationConfig) => void;
     deleteAutomation: (id: string) => void;
+    listAutomationsLocalStorage: () => Promise<AutomationConfig[]>;
+    setNotSavedAutomations: (automations: AutomationConfig[]) => void;
 }
 
 const initialNodes: Node[] = [];
@@ -111,6 +121,7 @@ export const AutomationProvider: React.FC<{ children: ReactNode }> = ({ children
         if (savedAutomation) {
             setCurrentAutomation(savedAutomation);
             setNodesInternal(savedAutomation.nodes);
+            setNodes(savedAutomation.nodes);
             setEdges(savedAutomation.edges);
             setAutomationName(savedAutomation.name);
             return savedAutomation;
@@ -121,6 +132,7 @@ export const AutomationProvider: React.FC<{ children: ReactNode }> = ({ children
         if (loadedAutomation) {
             setCurrentAutomation(loadedAutomation);
             setNodesInternal(loadedAutomation.nodes);
+            setNodes(loadedAutomation.nodes);
             setEdges(loadedAutomation.edges);
             setAutomationName(loadedAutomation.name);
 
@@ -195,7 +207,7 @@ export const AutomationProvider: React.FC<{ children: ReactNode }> = ({ children
         setNotSavedAutomations(prev => {
             const updated = prev.filter(automation => automation.id !== id);
             // Update localStorage
-            //localforage.setItem('notSavedAutomations', updated);
+            localforage.setItem('notSavedAutomations', updated);
             return updated;
         });
 
@@ -273,13 +285,7 @@ export const AutomationProvider: React.FC<{ children: ReactNode }> = ({ children
     }, [currentAutomation]);
 
     const setNodes = useCallback((nodes: Node[]) => {
-        const processedNodes = nodes.map((node) => ({
-            ...node,
-            data: {
-                ...node.data,
-                signal: signal(node.data.signal || { active: false })
-            }
-        }));
+        const processedNodes = nodes.map(addSignalToNode);
 
         setNodesInternal(processedNodes);
 
@@ -313,7 +319,9 @@ export const AutomationProvider: React.FC<{ children: ReactNode }> = ({ children
             updateNode,
             addAutomation,
             saveAutomation,
-            deleteAutomation
+            deleteAutomation,
+            listAutomationsLocalStorage,
+            setNotSavedAutomations
         }}>
             {children}
         </AutomationContext.Provider>

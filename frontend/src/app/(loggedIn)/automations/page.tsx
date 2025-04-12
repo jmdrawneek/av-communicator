@@ -1,57 +1,108 @@
 'use client';
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import styles from "./styles.module.scss";
-
-import { AutomationProvider, useAutomationContext } from "@/context/automationContext";
+import { useAutomationContext } from "@/context/automationContext";
 import { Button } from "@/components/button";
+import { Plus, ExternalLink } from "lucide-react";
+import { AutomationConfig } from "@/context/automationContext";
+
+const demoAutomations: AutomationConfig[] = [
+    {
+        id: '1',
+        nodes: [],
+        edges: [],
+        name: 'Room Lighting Automation',
+        roomId: '1',
+        dashboardId: '1'
+    },
+    {
+        id: '2',
+        nodes: [],
+        edges: [],
+        name: 'AV System Power On',
+        roomId: '2',
+        dashboardId: '2'
+    }
+];
 
 const AutomationList = () => {
-    const { automations, notSavedAutomations, addAutomation } = useAutomationContext();
+    const { notSavedAutomations, listAutomationsLocalStorage } = useAutomationContext();
+    const [savedAutomations, setSavedAutomations] = useState<AutomationConfig[]>([]);
 
-    const allAutomations = [...automations, ...notSavedAutomations];
+    useEffect(() => {
+        // Refresh automations list when component mounts
+        listAutomationsLocalStorage().then((loadedAutomations) => {
+            if (loadedAutomations && loadedAutomations.length > 0) {
+                setSavedAutomations(loadedAutomations);
+            } else {
+                // Show demo data if no automations are saved
+                setSavedAutomations(demoAutomations);
+            }
+        });
+    }, [listAutomationsLocalStorage]);
+
+    const allAutomations = [...savedAutomations, ...notSavedAutomations];
 
     return (
-        <div className={styles.automationList}>
+        <div className="space-y-4">
             {allAutomations.length === 0 ? (
-                <p className={styles.noAutomations}>No automations found. Create your first automation to get started.</p>
+                <div className="rounded-lg border border-border/20 bg-card/50 p-6 text-center">
+                    <p className="text-muted-foreground">
+                        No automations found. Create your first automation to get started.
+                    </p>
+                </div>
             ) : (
-                <ul className={styles.list}>
+                <div className="space-y-4">
                     {allAutomations.map((automation) => (
-                        <li key={automation.id} className={styles.automationItem}>
-                            <div className={styles.automationInfo}>
-                                <h3 className={styles.automationName}>{automation.name}</h3>
-                                <div className={styles.metadata}>
-                                    {automation.roomId && (
-                                        <span className={styles.metadataItem}>
-                                            Room: <Link href={`/rooms/${automation.roomId}`}>
-                                                {automation.roomId}
+                        <div
+                            key={automation.id}
+                            className="group rounded-lg border border-border/20 bg-card p-4 shadow-sm transition-all hover:shadow-lg"
+                        >
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-1">
+                                    <h3 className="text-lg font-semibold text-foreground">
+                                        {automation.name}
+                                    </h3>
+                                    <div className="flex items-center gap-4">
+                                        {automation.roomId && (
+                                            <Link
+                                                href={`/rooms/${automation.roomId}`}
+                                                className="flex items-center gap-1 text-sm text-muted-foreground hover:text-accent"
+                                            >
+                                                <span>Room {automation.roomId}</span>
+                                                <ExternalLink className="h-3 w-3" />
                                             </Link>
-                                        </span>
-                                    )}
-                                    {automation.dashboardId && (
-                                        <span className={styles.metadataItem}>
-                                            Dashboard: <Link href={`/dashboards/${automation.dashboardId}`}>
-                                                {automation.dashboardId}
+                                        )}
+                                        {automation.dashboardId && (
+                                            <Link
+                                                href={`/dashboards/${automation.dashboardId}`}
+                                                className="flex items-center gap-1 text-sm text-muted-foreground hover:text-accent"
+                                            >
+                                                <span>Dashboard {automation.dashboardId}</span>
+                                                <ExternalLink className="h-3 w-3" />
                                             </Link>
-                                        </span>
-                                    )}
-                                    {automation.notSaved && (
-                                        <span className={styles.unsavedBadge}>Unsaved</span>
-                                    )}
+                                        )}
+                                        {automation.notSaved && (
+                                            <span className="rounded-full bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">
+                                                Unsaved
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className={styles.automationActions}>
-                                <Link href={`/automations/${automation.id}`} passHref>
-                                    <Button buttonStyle="primarySmall">
+                                <Link href={`/automations/${automation.id}`}>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="opacity-0 transition-opacity group-hover:opacity-100"
+                                    >
                                         {automation.notSaved ? 'Continue Editing' : 'Edit'}
                                     </Button>
                                 </Link>
                             </div>
-                        </li>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );
@@ -61,16 +112,19 @@ const Automations = () => {
     const { addAutomation } = useAutomationContext();
 
     return (
-        <div className={styles.container}>
-            <div className={styles.header}>
-                <h1 className={styles.title}>Automations</h1>
-                <p className={styles.description}>
+        <div className="space-y-8 p-8">
+            <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                    Automations
+                </h1>
+                <p className="text-muted-foreground">
                     Create and manage automations for your AV system. Set up triggers and actions to automate your environment.
                 </p>
             </div>
 
-            <div className={styles.controls}>
-                <Button buttonStyle="primary" onClick={() => addAutomation()}>
+            <div className="flex justify-end">
+                <Button onClick={() => addAutomation()} variant="primary" size="md">
+                    <Plus className="mr-2 h-4 w-4" />
                     Create Automation
                 </Button>
             </div>
@@ -80,8 +134,6 @@ const Automations = () => {
     );
 };
 
-const AutomationsPage = () => {
+export default function AutomationsPage() {
     return <Automations />;
-};
-
-export default AutomationsPage; 
+} 

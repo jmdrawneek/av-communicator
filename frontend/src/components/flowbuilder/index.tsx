@@ -37,10 +37,6 @@ const Flow = () => {
     onConnect
   } = useAutomationContext();
 
-  useEffect(() => {
-    console.log('Flow component mounted with nodes:', nodes);
-  }, [nodes]);
-
   return (
     <>
       <ReactFlow
